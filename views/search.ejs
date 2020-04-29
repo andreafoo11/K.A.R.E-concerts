@@ -1,0 +1,230 @@
+<!doctype html>
+ <html>
+<head>
+    <title>Final Project</title>
+    <meta charset="utf-8"/>
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+    <script src="./public/scripts.js"></script>
+    <!--- External Stylesheet --->
+    <link rel="stylesheet" type="text/css" href="./public/final_style.css" media="screen">
+
+    <style>
+        .input {
+            font-family: Copperplate;
+            font-weight: bold;
+            color: white; 
+            text-align: center;
+            font-size: 50px;
+        }
+
+        #submit {
+            background: linear-gradient(to right, #9C27B0, #E040FB);
+            padding: .5em;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius: 8px;
+            color: #fff;
+            font-family: Tahoma, Geneva, sans-serif;
+            font-size: 18px;
+            text-decoration: none;
+            border: none;
+            width: 110px;
+        }
+  
+
+        #submit:hover {
+            border: none;
+            background: #696969;
+        }
+
+        input[type=text] {
+            width: 180px;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 3px;
+            font-size: 16px;
+            background-color: white;
+            background-image: url('searchicon.png');
+            background-size: 25px;
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            padding: 12px 20px 12px 40px;
+            transition: width 0.4s ease-in-out;
+        }
+        
+        
+
+    input[type=text]:focus {
+        width: 50%;
+    }
+    
+    .Filter_section {
+      color: white;
+      text-align: center;
+      margin-top: 30px;
+      /* background-color: black; */
+      padding:25px;
+      width:75%; 
+      display: block;
+        margin-left: auto;
+        margin-right: auto;   
+    }
+    
+    #select {
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 20px;
+      margin-top: 20px;
+  
+    }
+    
+    
+    .filter {
+        cursor: pointer;
+          border-radius: 0.5em;
+          color: white;
+          font-style: bold;
+          background: linear-gradient(to right, #9C27B0, #E040FB);
+          border: 0;
+          padding-left: 20px;
+          padding-right: 20px;
+          /* padding-bottom: 10px;
+          padding-top: 10px; */
+          font-family: 'system-ui', sans-serif;
+          font-size: 15px;
+          box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+          margin-left: 20px;
+          margin-top: 10px;
+          height: 35px;
+    }
+
+    .filter:hover {
+        border: none;
+        background: #696969;
+    }
+    
+    .location_message {
+      color: #fadadd;
+      font-family: Copperplate;
+      font-weight: bold;
+      font-size: 20px;
+    }
+    
+    #select {
+      position: relative;
+      display: block;
+      padding: 1.5em 2em;
+      background: white;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+    }
+    
+    .location_message {
+      font-size: 40px;
+      padding-bottom: 15px;
+    }
+    
+    .select_box {
+      display: inline-flex;
+    }
+    
+    .genre_message {
+      font-size: 20px;
+    }
+
+
+
+    </style>
+
+
+
+</head>
+
+<body>
+    <!--
+    key: IRf1McTms041EqaYu7WMVAtq6JuW4WQd
+    API Call Format
+    https://app.ticketmaster.com/{package}/{version}/{resource}.json?apikey=**{API key}
+    https://developer.ticketmaster.com/products-and-docs/apis/discovery-api/v2/
+    -->
+
+    <!--- <header> --->
+    <div class="header-fixed">
+        <div class="header">
+            <a href="index.html" class="logo">k.a.r.e concerts</a>
+            <div class="header-right">
+                <h1><a href="login.html">Log Out</a></h1>
+            </div>
+        </div>
+    </div>
+    
+    <br>
+    <br>
+    <br>
+
+    <div class = "description"> </div> 
+
+    
+    <div>
+
+    <div class = "input">
+         Find music events in your city
+    <form name="formInput" action = '/search' method = "POST" >
+       
+        
+        <div style="line-height:20%;">
+            <br>
+        </div>
+
+        <!--
+        <input style="width:150px; height:20px; margin-top: 6px;" type="text" name="city" id="inputBox" placeholder="Your city...">
+        -->
+        <input type="text" name="city" id="inputBox" placeholder="Enter your city...">
+
+        <div style="line-height:20%;">
+        <br>
+        </div>
+        <input type="submit" value="Search" id="submit" onsubmit="loadData();tableContent();filter_genre();">
+
+
+    </form>
+    </div>
+    
+    
+
+        
+    <!--- Filtering the data: drop downthat allows user to pick genre -->
+    <div class = "Filter_section">
+    <div id = "current" class = "location_message"> </div>
+    <div class = "genre_message"><b><em>Select to Filter by Genre:</em></b></div>
+    
+    <div class = "select_box">
+    <select id="select" class = "select-filter">
+        <option value="All">All</option>
+    </select>
+
+    <button type="button" id="filter" class = "filter" onclick="filter_genre();">Filter</button>
+    </div>
+    
+  </div>
+    
+    <br>
+    <table id="table" align="center" border-width="thin medium"> </table>
+    <br>
+    <br>
+
+    <script>
+      var city_to_search = "<%= city_name.City %>";
+      loadData(city_to_search);
+      tableContent();
+      genre_dropdown(); 
+
+    </script>
+    
+  
+
+    
+
+
+</body>
+</html>
